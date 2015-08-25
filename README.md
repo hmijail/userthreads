@@ -33,9 +33,14 @@ The more typical way to trigger a signal seems to be timer_create/alarm, but I w
 
 Recursive mutexes have been implemented. It could be parametrized to make them non-recursive, or instrumented to catch inconsistency errors.
 
+To exercise and test the mutexes, the classical [Dinning Philosophers problem](https://en.wikipedia.org/wiki/Dining_philosophers_problem) is implemented in main: each of the 4 dining philosophers (threads) will try to grab their couple of forks (mutexes) 100 times by default (can be changed by giving a new number as the first command line argument). Soon they will deadlock, and the scheduler will notice it and end the program, notifying the number of dead-locked threads.
+
+There are other example threads implemented, like a smarter_philosopher() which will return its fork (mutex) to the table if he notices that the 2nd fork is busy - thus avoiding deadlock, but still risking livelock/starvation.
+
 ## Testing in Linux
 On Ubuntu 13.4 I compiled using
 
 gcc -std=gnu99 -Wall -O3 -U_FORTIFY_SOURCE main.c uthreads.c 
 
 The -U switch is needed because fortify, which is default in Ubuntu for some time, [causes thread switching via longjmp to fail](http://permalink.gmane.org/gmane.comp.systems.archos.rockbox.cvs/32841)
+
