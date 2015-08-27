@@ -1,5 +1,4 @@
-CC ?= gcc
-WARNINGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
+WARNINGS := -Wall #-Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             -Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
             -Wuninitialized -Wconversion -Wstrict-prototypes
@@ -20,7 +19,8 @@ _SRCS := uthreads.c main.c
 SRCS := $(patsubst %,$(SRCDIR)/%,$(_SRCS))
 OBJS := $(patsubst %,$(OBJDIR)/%,$(_SRCS:c=o))
 
-CFLAGS += -MMD -MP	#generate phony deps during compilation
+# generate phony deps during compilation
+CFLAGS += -MMD -MP	
 DEPS := $(patsubst %,$(OBJDIR)/%,$(_SRCS:c=d))
 
 all: main
@@ -28,13 +28,10 @@ all: main
 createdir:
 	$(SILENCER)mkdir -p $(OBJDIR)
 
-#main: $(SRCDIR)/main.c
-
 main: $(OBJS) 
 	@echo " LINK $^"
 	$(SILENCER)$(CC) $(CFLAGS) -o $@ $^ 
 
-#build the src/*.c files into obj/, and create the dir first
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | createdir
 	@echo " CC $<"
 	$(SILENCER)$(CC) $(CFLAGS) -c -o $@ $< 
