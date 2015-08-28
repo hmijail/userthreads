@@ -1,14 +1,16 @@
+# For an explanation on this makefile, please visit 
+# http://hmijailblog.blogspot.com/2015/08/best-practices-for-gnu-makefile-in-2015.html
+
 WARNINGS := -Wall #-Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             -Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
             -Wuninitialized -Wconversion -Wstrict-prototypes
 
-CFLAGS ?= -std=gnu99 -Wall -g $(WARNINGS)
+CFLAGS ?= -std=gnu99 -g $(WARNINGS)
 
 OBJDIR := obj
 SRCDIR := src
 
-# Eclipse needs to see the full command lines
 ifeq ($(VERBOSE),1)
     SILENCER := 
 else
