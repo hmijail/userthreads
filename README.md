@@ -41,6 +41,12 @@ To exercise and test the mutexes, the classical [Dinning Philosophers problem](h
 
 There are other example threads implemented, like a smarter_philosopher() which will return its fork (mutex) to the table if he notices that the 2nd fork is busy - thus avoiding deadlock, but still risking livelock/starvation.
 
+### Design choices
+
+The infrastructure needed to store the runnable threads and mutexes is init'ed statically inside the uthreads library. On some systems that could be a virtue, like on an embedded system where one should not use malloc and know exactly how many threads will be running. (AVR offers longjmp; signals would have to be changed for IRQs).
+
+But on more dynamic systems, that infrastructure should probably use some dynamic list of threads and mutexes.
+
 ## Testing in Linux
 On Ubuntu, compile with
 
